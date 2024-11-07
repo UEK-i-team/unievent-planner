@@ -1,10 +1,13 @@
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { getMongoConnectionString, PermissionGuard } from './libs';
 import { MongooseModels } from './models';
 import { UpserDefaultsService } from './upser-defaults/upser-defaults.service';
+import { AnnouncementsModule } from './core/announcements/announcements.module';
 
 @Module({
   imports: [
@@ -20,13 +23,14 @@ import { UpserDefaultsService } from './upser-defaults/upser-defaults.service';
       }),
     }),
     MongooseModule.forFeature(MongooseModels),
+    AnnouncementsModule,
   ],
   controllers: [],
   providers: [
-    {
-      provide: APP_GUARD,
-      useClass: PermissionGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: PermissionGuard,
+    // },
     UpserDefaultsService,
     Logger,
   ],
