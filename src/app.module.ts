@@ -1,8 +1,9 @@
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
+//TODO Uncomment when ready
+//import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
-import { getMongoConnectionString, PermissionGuard } from './libs';
+import { getMongoConnectionString /* PermissionGuard */ } from './libs';
 import { MongooseModels } from './models';
 import { UpserDefaultsService } from './upser-defaults/upser-defaults.service';
 import { AuthModule } from './auth/auth.module';
