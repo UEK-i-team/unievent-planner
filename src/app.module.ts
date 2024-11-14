@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { getMongoConnectionString, PermissionGuard } from './libs';
 import { MongooseModels } from './models';
 import { UpserDefaultsService } from './upser-defaults/upser-defaults.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,13 +21,15 @@ import { UpserDefaultsService } from './upser-defaults/upser-defaults.service';
       }),
     }),
     MongooseModule.forFeature(MongooseModels),
+    AuthModule,
   ],
   controllers: [],
   providers: [
-    {
-      provide: APP_GUARD,
-      useClass: PermissionGuard,
-    },
+    //  TODO : Uncomment when ready
+    // {
+    //  provide: APP_GUARD,
+    //  useClass: PermissionGuard,
+    // },
     UpserDefaultsService,
     Logger,
   ],
