@@ -5,12 +5,14 @@ import { CreateAnnouncementDto } from '../dtos';
 import { AnnouncementDto } from '../dtos';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToClass } from 'class-transformer';
+import { SystemLogsService } from 'src/libs';
 
 @Injectable()
 export class AnnouncementsService {
   constructor(
     @InjectModel(Announcement.name)
     private announcementModel: Model<Announcement>,
+    private readonly systemLogsService: SystemLogsService,
   ) {}
 
   async create(
@@ -28,6 +30,7 @@ export class AnnouncementsService {
     createAnnouncementDoc.createdAt = new Date();
     createAnnouncementDoc.updatedAt = new Date();
 
+    // this.systemLogsService.createLog()
     return createAnnouncementDoc.save();
   }
 
