@@ -10,16 +10,14 @@ export class EventsService {
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
   ) {}
 
-  async findAll(): Promise<Event[]> {
+  async find(): Promise<Event[]> {
     return this.eventModel.find().exec();
   }
-  async create(createEventDto: CreateEventDto): Promise<Event> {
-    const newEvent = new this.eventModel({
-      ...createEventDto,
-      // TODO: add validation of user's username with token and assigne it below
-      createdBy: 'test',
-      updatedBy: 'test',
-    });
+  async getEvent(group: string): Promise<Event> {
+    return this.eventModel.findOne({ group }).exec();
+  }
+  async createEvent(createEventDto: CreateEventDto): Promise<Event> {
+    const newEvent = new this.eventModel(createEventDto);
     return newEvent.save();
   }
 }

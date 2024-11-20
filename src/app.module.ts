@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { getMongoConnectionString, PermissionGuard } from './libs';
 import { MongooseModels } from './models';
 import { UpserDefaultsService } from './upser-defaults/upser-defaults.service';
+import { EventsModule } from './core/events/events.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UpserDefaultsService } from './upser-defaults/upser-defaults.service';
       }),
     }),
     MongooseModule.forFeature(MongooseModels),
+    EventsModule,
   ],
   controllers: [],
   providers: [
