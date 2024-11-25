@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { AnnouncementsService } from '../services/announcements.service';
 import { AnnouncementDto, CreateAnnouncementDto } from '../dtos';
 import { Announcement } from 'src/models/announcement.model';
+import { SystemLogDto } from 'src/libs';
 
 @Controller('announcements')
 export class AnnouncementsController {
@@ -10,6 +11,7 @@ export class AnnouncementsController {
   @Post()
   async create(
     @Body() createAnnouncementDto: CreateAnnouncementDto,
+    systemLogDto: SystemLogDto,
   ): Promise<Announcement> {
     return this.announcementsService.create(createAnnouncementDto);
   }

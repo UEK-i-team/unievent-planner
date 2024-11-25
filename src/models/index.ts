@@ -7,14 +7,13 @@ import { SystemLog, SystemLogSchema } from './system-log.model';
 import { Role, RoleSchema } from './role.model';
 import { UserAccount, UserAccountSchema } from './user-account.model';
 
-export * from './system-log.model';
-
 export * from './announcement.model';
 export * from './event.model';
 export * from './group.model';
 export * from './join-code.model';
 export * from './role.model';
 export * from './user-account.model';
+export * from './system-log.model';
 
 export const MongooseModels: ModelDefinition[] = [
   {

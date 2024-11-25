@@ -1,15 +1,24 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose'; // Do obsługi Mongoose
 import { SystemLogsService } from './services/system-logs.service';
-import { SystemLog, SystemLogSchema } from 'src/models';
+import {
+  SystemLog,
+  SystemLogSchema,
+  UserAccount,
+  UserAccountSchema,
+} from 'src/models';
+import { UpserDefaultsService } from 'src/upser-defaults/upser-defaults.service';
+import { SystemLogsController } from './controllers/system-logs.controller';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: SystemLog.name, schema: SystemLogSchema },
-    ]), // Rejestracja modelu Mongoose
+      { name: UserAccount.name, schema: UserAccountSchema },
+    ]),
   ],
-  providers: [SystemLogsService], // Dodanie serwisu do providera
-  exports: [SystemLogsService], // Eksportowanie serwisu, żeby można było go używać w innych modułach
+  providers: [SystemLogsService, UpserDefaultsService],
+  controllers: [SystemLogsController],
+  exports: [SystemLogsService, UpserDefaultsService], // Export UpserDefaultsService
 })
 export class SystemLogsModule {}
