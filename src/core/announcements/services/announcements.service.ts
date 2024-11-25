@@ -94,6 +94,9 @@ import { AnnouncementDto } from '../dtos';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToClass } from 'class-transformer';
 import { SystemLogsService } from 'src/core/system-logs/services/system-logs.service';
+import { UpserDefaultsService } from 'src/upser-defaults/upser-defaults.service';
+import { UserAccountDto } from 'src/core/accounts/dtos';
+import { SystemLogDto } from 'src/libs';
 
 @Injectable()
 export class AnnouncementsService {
@@ -101,16 +104,17 @@ export class AnnouncementsService {
     @InjectModel(Announcement.name)
     private announcementModel: Model<Announcement>,
     private readonly systemLogsService: SystemLogsService,
+    private readonly upserDefaultService: UpserDefaultsService,
   ) {}
 
   async create(
     createAnnouncementDto: CreateAnnouncementDto,
   ): Promise<Announcement> {
     // TODO: add validation of user's username with token and assigne it below
-    const user: string = 'test';
+    const user = await this.upserDefaultService.getSystemAccount();
     const createAnnouncementDoc = new this.announcementModel();
-    createAnnouncementDoc.createdBy = user;
-    createAnnouncementDoc.updatedBy = user;
+    createAnnouncementDoc.createdBy = user.id;
+    createAnnouncementDoc.updatedBy = user.id;
     createAnnouncementDoc.title = createAnnouncementDto.title;
     createAnnouncementDoc.description = createAnnouncementDto.description;
     createAnnouncementDoc.expiresAt = createAnnouncementDto.expiresAt;
@@ -118,12 +122,17 @@ export class AnnouncementsService {
     createAnnouncementDoc.createdAt = new Date();
     createAnnouncementDoc.updatedAt = new Date();
 
-    const announcementLog = {
+    // const createdByUser = await this.upserDefaultService.getSystemAccount();
+
+    const announcementLog: SystemLogDto = {
+      // id: '',
       action: 'create',
       message: `Announcement created: ${createAnnouncementDto.title}`,
       context: 'announcement',
       createdBy: user,
       updatedBy: user,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     await this.systemLogsService.createSystemLog(announcementLog);

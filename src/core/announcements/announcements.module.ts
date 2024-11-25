@@ -16,6 +16,6 @@ import { SystemLogsModule } from '../system-logs/system-logs.module'; // Importu
     SystemLogsModule, // Import SystemLogsModule
   ],
   controllers: [AnnouncementsController],
-  providers: [AnnouncementsService], // SystemLogsService nie jest już tutaj, bo jest eksportowane przez SystemLogsModule
+  providers: [AnnouncementsService],
 })
 export class AnnouncementsModule {}
