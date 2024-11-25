@@ -10,7 +10,7 @@ export abstract class BaseClass extends BasicClass {
     readonly: true,
     // select: false,
   })
-  createdBy?: string;
+  createdBy?: mongoose.Types.ObjectId;
 
   @Prop({
     required: true,
