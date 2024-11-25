@@ -5,7 +5,7 @@ export class SystemLogDto {
   action!: string;
 
   @Expose()
-  details!: string;
+  message!: string;
 
   @Expose()
   context!: string;

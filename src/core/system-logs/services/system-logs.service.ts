@@ -10,10 +10,13 @@ export class SystemLogsService {
     @InjectModel(SystemLog.name) private systemLogModel: Model<SystemLog>,
   ) {}
 
-  async createLog(createLogDto: SystemLogDto): Promise<SystemLog> {
-    const newSystemLog = new this.systemLogModel({
-      ...createLogDto,
-    });
+  async createSystemLog(createSystemLogDto: SystemLogDto): Promise<SystemLog> {
+    const newSystemLog = new this.systemLogModel();
+
+    newSystemLog.action = createSystemLogDto.action; // np. 'create', 'update'
+    newSystemLog.message = createSystemLogDto.message; // Szczegóły akcji, np. co zostało dodane
+    newSystemLog.context = createSystemLogDto.context; // np. 'event', 'announcement'
+
     return newSystemLog.save();
   }
 

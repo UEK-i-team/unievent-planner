@@ -5,7 +5,7 @@ import { CreateAnnouncementDto } from '../dtos';
 import { AnnouncementDto } from '../dtos';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToClass } from 'class-transformer';
-import { SystemLogsService } from 'src/libs';
+import { SystemLogsService } from 'src/core/system-logs/services/system-logs.service';
 
 @Injectable()
 export class AnnouncementsService {
@@ -30,7 +30,15 @@ export class AnnouncementsService {
     createAnnouncementDoc.createdAt = new Date();
     createAnnouncementDoc.updatedAt = new Date();
 
-    // this.systemLogsService.createLog()
+    const announcementLog = {
+      action: 'create',
+      message: `Announcement created: ${createAnnouncementDto.title}`,
+      context: 'announcement',
+      createdBy: user,
+      updatedBy: user,
+    };
+
+    await this.systemLogsService.createSystemLog(announcementLog);
     return createAnnouncementDoc.save();
   }
 
