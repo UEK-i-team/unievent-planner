@@ -1,4 +1,3 @@
-import { ModelDefinition } from '@nestjs/mongoose';
 import { Announcement, AnnouncementSchema } from './announcement.model';
 import { Event, EventSchema } from './event.model';
 import { Group, GroupSchema } from './group.model';

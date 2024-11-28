@@ -7,7 +7,7 @@ import {
   Param,
   Get,
 } from '@nestjs/common';
-import { codeService } from 'src/core/join-codes/service/code.service';
+import { CodeService } from 'src/core/join-codes/service/code.service';
 import { GroupsService } from '../service/groups.service';
 import { CreateGroupDto } from '../dtos/create-group.dto';
 import { GroupDto } from '../dtos/group.dto';
@@ -16,7 +16,7 @@ import { GroupDto } from '../dtos/group.dto';
 export class GroupsController {
   constructor(
     private readonly groupsService: GroupsService,
-    private readonly codeService: codeService,
+    private readonly codeService: CodeService,
   ) {}
 
   @Get(':id')
@@ -25,7 +25,7 @@ export class GroupsController {
   }
 
   @Get()
-  async find() {
+  async find(): Promise<GroupDto[]> {
     return this.groupsService.find();
   }
 
@@ -44,7 +44,10 @@ export class GroupsController {
   }
 
   @Delete('deleteStudent')
-  removeStudentFromGroup(@Body() userId: string, @Body() groupId: string) {
+  removeStudentFromGroup(
+    @Body() userId: string,
+    @Body() groupId: string,
+  ): Promise<void> {
     return this.codeService.removeStudentFromGroup(
       (groupId = '6748513063dce30683e85ce5'),
       (userId = '67483ffd014acab29547a6c8'),

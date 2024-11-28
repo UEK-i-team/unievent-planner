@@ -1,21 +1,11 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-  Post,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { plainToClass } from 'class-transformer';
 import { randomBytes } from 'crypto';
-import mongoose, { Model, Types } from 'mongoose';
-import { UserAccountDto } from 'src/core/accounts/dtos';
-import { GroupDto } from 'src/core/groups/dtos';
-import { AccountBasicDto, BasicDto } from 'src/libs';
-import { UUIDSchemaType } from 'src/libs/internal/uuid.type';
+import { Model } from 'mongoose';
 import { Group, UserAccount } from 'src/models';
 
 @Injectable()
-export class codeService {
+export class CodeService {
   constructor(
     @InjectModel(UserAccount.name)
     private readonly userAccountModel: Model<UserAccount>,

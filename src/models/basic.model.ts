@@ -1,6 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { UUIDSchemaType } from '../libs/internal/uuid.type'; // Ensure this path is correct
+import { Prop } from '@nestjs/mongoose';
 import { SystemStatus } from 'src/libs';
 
 export abstract class BasicClass {

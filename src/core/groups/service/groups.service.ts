@@ -1,16 +1,13 @@
 import {
   BadRequestException,
-  HttpException,
   HttpStatus,
   Injectable,
   NotFoundException,
-  Param,
 } from '@nestjs/common';
 import { CreateGroupDto } from '../dtos/create-group.dto';
-import { randomBytes } from 'crypto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Group } from 'src/models';
-import { Model, ObjectId, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { plainToClass } from 'class-transformer';
 import { GroupDto } from '../dtos/group.dto';
 import { UserAccountDto } from 'src/core/accounts/dtos';
@@ -73,8 +70,8 @@ export class GroupsService {
     if (!groups) {
       throw new NotFoundException(`There are no groups`);
     }
-    return groups.map((Current_element) =>
-      plainToClass(GroupDto, Current_element, {
+    return groups.map((currentElement) =>
+      plainToClass(GroupDto, currentElement, {
         excludeExtraneousValues: true,
       }),
     );
