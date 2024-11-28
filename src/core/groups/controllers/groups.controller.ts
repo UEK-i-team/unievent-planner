@@ -11,8 +11,6 @@ import { codeService } from 'src/core/join-codes/service/code.service';
 import { GroupsService } from '../service/groups.service';
 import { CreateGroupDto } from '../dtos/create-group.dto';
 import { GroupDto } from '../dtos/group.dto';
-import { UserAccountDto } from 'src/core/accounts/dtos';
-import { UserAccount } from 'src/models';
 
 @Controller('groups')
 export class GroupsController {
@@ -38,31 +36,20 @@ export class GroupsController {
   }
 
   @Post('join')
-  joinGroup(
-    @Body() userAccount: UserAccountDto,
-    GroupDto: GroupDto,
-  ): Promise<void> {
+  joinGroup(@Body() userId: string, @Body() groupId: string): Promise<void> {
     return this.codeService.joinGroup(
-      (GroupDto.id = '996e998f-129e-4a9f-a366-f661f5048264'),
-      (userAccount.id = '647c5917-2ed2-4e9d-85e9-ac596e0248e2'),
+      (groupId = '6748513063dce30683e85ce5'),
+      (userId = '67483ffd014acab29547a6c8'),
     );
   }
 
-  // @Post()
-  // addStudentToGroup(@Body() joinGroupDto: JoinGroupDto) {
-  //   return this.groupsService.addStudentToGroup(
-  //     joinGroupDto.code,
-  //     joinGroupDto.userId,
-  //   );
-  // }
-
-  // @Post()
-  // removeStudentFromGroup(@Body() joinGroupDto: JoinGroupDto) {
-  //   return this.groupsService.removeStudentFromGroup(
-  //     joinGroupDto.code,
-  //     joinGroupDto.userId,
-  //   );
-  // }
+  @Delete('deleteStudent')
+  removeStudentFromGroup(@Body() userId: string, @Body() groupId: string) {
+    return this.codeService.removeStudentFromGroup(
+      (groupId = '6748513063dce30683e85ce5'),
+      (userId = '67483ffd014acab29547a6c8'),
+    );
+  }
 
   @Delete(':idOrCode')
   remove(@Param('idOrCode') id: string): Promise<{ statusCode: number }> {

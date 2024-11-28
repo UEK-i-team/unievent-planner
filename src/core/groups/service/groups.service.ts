@@ -10,7 +10,7 @@ import { CreateGroupDto } from '../dtos/create-group.dto';
 import { randomBytes } from 'crypto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Group } from 'src/models';
-import { Model } from 'mongoose';
+import { Model, ObjectId, Types } from 'mongoose';
 import { plainToClass } from 'class-transformer';
 import { GroupDto } from '../dtos/group.dto';
 import { UserAccountDto } from 'src/core/accounts/dtos';
@@ -19,6 +19,13 @@ import { UpserDefaultsService } from '../../../upser-defaults/upser-defaults.ser
 export class GroupsService {
   constructor(private readonly upserDefaultsService: UpserDefaultsService) {}
   @InjectModel(Group.name) private readonly GroupModel: Model<Group>;
+
+  private toObjectId(id: string): Types.ObjectId {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException(`Invalid ObjectId: ${id}`);
+    }
+    return new Types.ObjectId(id);
+  }
 
   async createGroup(createGroupDto: CreateGroupDto): Promise<CreateGroupDto> {
     const createGroupDoc = new this.GroupModel();
@@ -74,7 +81,7 @@ export class GroupsService {
   }
 
   private async groupExists(id: string): Promise<boolean> {
-    const group = await this.GroupModel.findById({ id }).lean().exec();
+    const group = await this.GroupModel.findById(id).lean().exec();
     if (!id) {
       return false;
     }
@@ -82,9 +89,8 @@ export class GroupsService {
   }
 
   async remove(id: string): Promise<{ statusCode: number }> {
-    const group = await this.GroupModel.findOneAndDelete({
-      id,
-    }).exec();
+    const objectId = this.toObjectId(id);
+    const group = await this.GroupModel.findOneAndDelete(objectId).exec();
 
     if (!group) {
       throw new NotFoundException(`Group with ID or code ${id} not found`);

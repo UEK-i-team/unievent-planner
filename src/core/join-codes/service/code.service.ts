@@ -7,7 +7,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToClass } from 'class-transformer';
 import { randomBytes } from 'crypto';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { UserAccountDto } from 'src/core/accounts/dtos';
 import { GroupDto } from 'src/core/groups/dtos';
 import { AccountBasicDto, BasicDto } from 'src/libs';
@@ -21,6 +21,13 @@ export class codeService {
     private readonly userAccountModel: Model<UserAccount>,
     @InjectModel(Group.name) private readonly groupModel: Model<Group>,
   ) {}
+
+  // private toObjectId(id: string): Types.ObjectId {
+  //   if (!Types.ObjectId.isValid(id)) {
+  //     throw new BadRequestException(`Invalid ObjectId: ${id}`);
+  //   }
+  //   return new Types.ObjectId(id);
+  // }
 
   private generateCode(length: number = 6): string {
     return randomBytes(length)
