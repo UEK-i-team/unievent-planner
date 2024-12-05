@@ -1,7 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './libs';
+import { HttpExceptionFilter, SwaggerSetup } from './libs';
 import { WinstonModule } from 'nest-winston';
 import { WinstonLogger } from 'src/libs/internal/winston.logger';
 
@@ -20,10 +20,16 @@ async function bootstrap(): Promise<void> {
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api/v1');
   app.useGlobalFilters(new HttpExceptionFilter());
+  if (process.env.NODE_ENV === 'development') {
+    SwaggerSetup(app);
+  }
   await app.listen(`${process.env.HOST_PORT}`);
 
   WinstonLogger.info(
     `Server running on: http://${process.env.HOST_NAME}:${process.env.HOST_PORT}`,
+  );
+  WinstonLogger.info(
+    `Swagger OpenApi on: http://${process.env.HOST_NAME}:${process.env.HOST_PORT}/api`,
   );
 }
 bootstrap();

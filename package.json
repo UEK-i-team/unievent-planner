@@ -1,5 +1,9 @@
 {
   "name": "unievent-planner",
+  "config": {
+    "host_name": "localhost",
+    "host_port": "4455"
+  },
   "version": "0.0.1",
   "description": "unievent-planner-backend-nestjs",
   "author": "",
@@ -21,7 +25,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "generate-api-json": "curl -o unievent-api.json http://$npm_package_config_host_name:$npm_package_config_host_port/api-json"
   },
   "dependencies": {
     "@nestjs/cli": "^10.4.2",
@@ -31,6 +36,7 @@
     "@nestjs/mongoose": "^10.0.10",
     "@nestjs/platform-express": "^10.3.10",
     "@nestjs/schematics": "^10.1.2",
+    "@nestjs/swagger": "^7.4.2",
     "@types/express": "^4.17.21",
     "@types/node": "^20.14.11",
     "@types/uuid": "^10.0.0",
@@ -41,6 +47,7 @@
     "nest-winston": "^1.9.7",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^10.0.0",
     "winston": "^3.14.2"
   },
