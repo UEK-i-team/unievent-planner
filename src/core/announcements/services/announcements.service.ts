@@ -7,7 +7,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { plainToClass } from 'class-transformer';
 import { SystemLogsService } from 'src/core/system-logs/services/system-logs.service';
 import { UpserDefaultsService } from 'src/upser-defaults/upser-defaults.service';
-import { UserAccountDto } from 'src/core/accounts/dtos';
 import { Context, SystemLogAction, SystemLogDto } from 'src/libs';
 
 @Injectable()
