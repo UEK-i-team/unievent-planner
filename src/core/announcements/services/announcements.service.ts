@@ -8,7 +8,7 @@ import { plainToClass } from 'class-transformer';
 import { SystemLogsService } from 'src/core/system-logs/services/system-logs.service';
 import { UpserDefaultsService } from 'src/upser-defaults/upser-defaults.service';
 import { UserAccountDto } from 'src/core/accounts/dtos';
-import { SystemLogDto } from 'src/libs';
+import { Context, SystemLogAction, SystemLogDto } from 'src/libs';
 
 @Injectable()
 export class AnnouncementsService {
@@ -38,9 +38,9 @@ export class AnnouncementsService {
 
     const announcementLog: SystemLogDto = {
       // id: '',
-      action: 'create',
+      action: SystemLogAction.CREATE,
       message: `Announcement created: ${createAnnouncementDto.title}`,
-      context: 'announcement',
+      context: Context.ANNOUNCEMENT,
       createdBy: user,
       updatedBy: user,
       createdAt: new Date(),
