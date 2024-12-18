@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose'; // Do obsługi Mongoose
+import { MongooseModule } from '@nestjs/mongoose';
 import { SystemLogsService } from './services/system-logs.service';
 import {
   SystemLog,
@@ -19,6 +19,6 @@ import { SystemLogsController } from './controllers/system-logs.controller';
   ],
   providers: [SystemLogsService, UpserDefaultsService],
   controllers: [SystemLogsController],
-  exports: [SystemLogsService, UpserDefaultsService], // Export UpserDefaultsService
+  exports: [SystemLogsService, UpserDefaultsService],
 })
 export class SystemLogsModule {}

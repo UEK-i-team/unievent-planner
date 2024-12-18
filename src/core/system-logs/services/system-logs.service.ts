@@ -20,14 +20,6 @@ export class SystemLogsService {
       updatedBy: user.id,
       createdBy: user.id,
     });
-    // const user = await this.upserDefaultService.getSystemAccount();
-    // newSystemLog.action = SystemLogDto.action; // np. 'create', 'update'
-    // newSystemLog.message = SystemLogDto.message; // Szczegóły akcji, np. co zostało dodane
-    // newSystemLog.context = SystemLogDto.context; // np. 'event', 'announcement'
-    // newSystemLog.updatedBy = user.id;
-    // newSystemLog.createdBy = user.id;
-    // newSystemLog.updatedAt = new Date();
-    // newSystemLog.createdAt = new Date();
 
     return newSystemLog.save();
   }
