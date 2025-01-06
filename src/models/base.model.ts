@@ -8,7 +8,7 @@ export abstract class BaseClass extends BasicClass {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserAccount',
     readonly: true,
-    select: false,
+    // select: false,
   })
   createdBy?: string;
 

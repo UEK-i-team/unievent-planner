@@ -51,7 +51,7 @@ export class Event extends BaseClass {
     ref: 'Group',
     select: false,
   })
-  groups!: string[];
+  groups!: mongoose.Types.ObjectId[];
 
   @Prop({ required: true, type: EventTypeColorModel })
   typeModel!: EventTypeColorModel;

@@ -3,6 +3,7 @@ import { Announcement, AnnouncementSchema } from './announcement.model';
 import { Event, EventSchema } from './event.model';
 import { Group, GroupSchema } from './group.model';
 import { JoinCode, JoinCodeSchema } from './join-code.model';
+import { SystemLog, SystemLogSchema } from './system-log.model';
 import { Role, RoleSchema } from './role.model';
 import { UserAccount, UserAccountSchema } from './user-account.model';
 
@@ -12,6 +13,7 @@ export * from './group.model';
 export * from './join-code.model';
 export * from './role.model';
 export * from './user-account.model';
+export * from './system-log.model';
 
 export const MongooseModels: ModelDefinition[] = [
   {
@@ -43,5 +45,10 @@ export const MongooseModels: ModelDefinition[] = [
     name: UserAccount.name,
     schema: UserAccountSchema,
     collection: 'userAccounts',
+  },
+  {
+    name: SystemLog.name,
+    schema: SystemLogSchema,
+    collection: 'systemLogs',
   },
 ];

@@ -14,5 +14,5 @@ export abstract class BasicDto {
     },
     { toClassOnly: true },
   )
-  id!: string;
+  id?: string;
 }

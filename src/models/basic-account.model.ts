@@ -27,7 +27,7 @@ export abstract class BasicAccount extends BasicClass {
     readonly: true,
     select: false,
   })
-  createdBy?: string;
+  createdBy?: mongoose.Types.ObjectId;
 
   @Prop({
     required: true,
