@@ -7,7 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { getMongoConnectionString, PermissionGuard } from './libs';
 import { MongooseModels } from './models';
 import { UpserDefaultsService } from './upser-defaults/upser-defaults.service';
-import { AnnouncementsModule } from './core/announcements/announcements.module';
+import { SystemLogsModule } from './core/system-logs/system-logs.module';
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { AnnouncementsModule } from './core/announcements/announcements.module';
       }),
     }),
     MongooseModule.forFeature(MongooseModels),
-    AnnouncementsModule,
+    SystemLogsModule,
   ],
   controllers: [],
   providers: [
