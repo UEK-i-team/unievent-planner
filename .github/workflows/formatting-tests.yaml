@@ -5,7 +5,7 @@ on: [push]
 jobs:
   formatting_tests:
     name: Formatting Tests
-    if: github.base_ref != 'develop'
+    if: github.ref_name != 'develop'
     runs-on: ubuntu-latest
 
     steps:
