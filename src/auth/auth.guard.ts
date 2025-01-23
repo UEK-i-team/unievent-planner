@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
       request.user = decodedToken;
       return true;
     } catch (error) {
-      throw new UnauthorizedException('Invalid Google token');
+      throw new UnauthorizedException(error);
     }
   }
 }

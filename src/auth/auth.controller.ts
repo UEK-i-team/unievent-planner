@@ -21,7 +21,6 @@ export class AuthController {
     if (!authorization || !authorization.startsWith('Bearer ')) {
       throw new UnauthorizedException('Token is required');
     }
-
     const token = authorization.replace('Bearer ', '');
     const decodedToken = await this.authService.verifyToken(token);
 
