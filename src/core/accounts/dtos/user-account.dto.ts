@@ -16,7 +16,7 @@ export class UserAccountDto extends AccountBasicDto {
 
   @Expose()
   @Type(() => RoleDto)
-  roles!: RoleDto[];
+  role!: RoleDto[];
 
   @Expose()
   @Type(() => GroupDto)

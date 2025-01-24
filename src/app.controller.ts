@@ -7,7 +7,7 @@ import { Roles } from './libs/shared/decorators/roles.decorator';
 export class AppController {
   @Get('admin-route')
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Roles('SYSTEM')
   getAdminRoute(): string {
     return 'This is an admin route';
   }

@@ -5,7 +5,7 @@ import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
 import { FirebaseService } from './firebase.service';
 import { UserAccount, UserAccountSchema, Role, RoleSchema } from 'src/models';
-import { UpserDefaultsService } from 'src/upser-defaults/upser-defaults.service';
+import { AccountsModule } from 'src/core/accounts/accounts.module';
 
 @Module({
   imports: [
@@ -13,8 +13,9 @@ import { UpserDefaultsService } from 'src/upser-defaults/upser-defaults.service'
       { name: UserAccount.name, schema: UserAccountSchema },
       { name: Role.name, schema: RoleSchema },
     ]),
+    AccountsModule,
   ],
-  providers: [AuthService, AuthGuard, FirebaseService, UpserDefaultsService],
+  providers: [AuthService, AuthGuard, FirebaseService],
   controllers: [AuthController],
   exports: [AuthService],
 })

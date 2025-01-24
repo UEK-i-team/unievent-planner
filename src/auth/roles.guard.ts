@@ -19,12 +19,10 @@ export class RolesGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
+    // TODO: after change roles to/from array, implement correct logic
     const { user } = context.switchToHttp().getRequest();
-    if (
-      !user ||
-      !user.roles ||
-      !requiredRoles.some((role) => user.roles.includes(role))
-    ) {
+    const userRoles = user.role.map((role) => role.name);
+    if (!userRoles.some((role) => requiredRoles.includes(role))) {
       throw new ForbiddenException('You do not have the required roles');
     }
     return true;

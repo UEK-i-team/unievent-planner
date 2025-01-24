@@ -23,6 +23,7 @@ export class AuthController {
     }
     const token = authorization.replace('Bearer ', '');
     const decodedToken = await this.authService.verifyToken(token);
+    // console.log('token', decodedToken);
 
     return {
       decodedToken: decodedToken as unknown as admin.auth.DecodedIdToken,
