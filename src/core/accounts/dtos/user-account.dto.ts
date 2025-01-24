@@ -16,7 +16,7 @@ export class UserAccountDto extends AccountBasicDto {
 
   @Expose()
   @Type(() => RoleDto)
-  roles!: RoleDto[];
+  role!: RoleDto[];
 
   @Expose()
   @Type(() => GroupDto)
@@ -25,6 +25,9 @@ export class UserAccountDto extends AccountBasicDto {
   @Expose()
   @IsDefined()
   status!: SystemStatus;
+
+  @Expose()
+  firebaseId!: string;
 
   get fullName(): string {
     const fullName = [this.firstName, this.lastName].filter(Boolean).join(' ');

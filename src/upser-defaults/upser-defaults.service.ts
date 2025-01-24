@@ -3,7 +3,8 @@ import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { plainToClass } from 'class-transformer';
 import { Connection, HydratedDocument, Model } from 'mongoose';
 import { UserAccountDto } from '../core/accounts/dtos';
-import { MongooseModels, UserAccount } from '../models';
+import { MongooseModels, UserAccount, Role } from '../models';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class UpserDefaultsService implements OnModuleInit {
@@ -13,10 +14,13 @@ export class UpserDefaultsService implements OnModuleInit {
     @InjectConnection() private readonly connection: Connection,
     @InjectModel(UserAccount.name)
     private readonly userAccountModel: Model<UserAccount>,
+    @InjectModel(Role.name)
+    private readonly roleModel: Model<Role>,
   ) {}
 
   async onModuleInit(): Promise<void> {
     await this.upsertDefaults();
+    await this.createRoles();
     await this.upsertSystemAccount();
   }
 
@@ -68,10 +72,49 @@ export class UpserDefaultsService implements OnModuleInit {
         systemAccount.updatedBy = systemAccount.id;
         systemAccount.createdBy = systemAccount.id;
         systemAccount.email = 'system@unievent-planner.com';
+        systemAccount.firebaseId = 'defaultFirebaseId';
+        systemAccount.role = [(await this.getSystemRole()).id];
         await systemAccount.save();
       }
       this.systemAccount = systemAccount;
     }
     return this.systemAccount;
+  }
+
+  private async createRoles(): Promise<void> {
+    await this.createRoleIfNotExists('USER', [
+      { action: 'read', subject: 'profile' },
+      { action: 'update', subject: 'profile' },
+    ]);
+    await this.createRoleIfNotExists('SYSTEM', [
+      { action: 'manage', subject: 'all' },
+    ]);
+  }
+
+  private async createRoleIfNotExists(
+    name: string,
+    permissions: { action: string; subject: string }[],
+  ): Promise<void> {
+    const role = await this.roleModel.findOne({ name });
+    if (!role) {
+      const systemUser = new Types.ObjectId((await this.getSystemAccount()).id);
+      const newRole = new this.roleModel({
+        name,
+        permissions,
+        createdBy: systemUser,
+        updatedBy: systemUser,
+      });
+      await newRole.save();
+      Logger.debug(`[UpserService] Role ${name} created.`);
+    } else {
+      Logger.debug(`[UpserService] Role ${name} already exists.`);
+    }
+  }
+  async getUserRole(): Promise<HydratedDocument<Role>> {
+    return this.roleModel.findOne({ name: 'USER' }).exec();
+  }
+
+  async getSystemRole(): Promise<HydratedDocument<Role>> {
+    return this.roleModel.findOne({ name: 'SYSTEM' }).exec();
   }
 }

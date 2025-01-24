@@ -47,6 +47,8 @@ export class UserAccount extends BaseClass {
     ref: 'Group',
   })
   groups!: string[];
+  @Prop({ required: true, type: String })
+  firebaseId!: string;
 }
 
 export const UserAccountSchema = SchemaFactory.createForClass(UserAccount);
