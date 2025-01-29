@@ -1,0 +1,25 @@
+name: Build project
+
+on:
+  workflow_run:
+    workflows: ['Basic Tests']
+    types: [completed]
+jobs:
+  build-project:
+    name: Build Production Servers
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v4
+
+      - name: Set up Node.jss
+        uses: actions/setup-node@v3
+        with:
+          node-version: 21
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build

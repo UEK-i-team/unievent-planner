@@ -1,0 +1,29 @@
+name: Basic Tests
+
+on: [push]
+
+jobs:
+  formatting_tests:
+    name: Formatting Tests
+    if: github.ref_name != 'develop'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Test Prettier
+        run: |
+          npx prettier --check --config .prettierrc --log-level warn .
+
+      - name: Test ESLint
+        run: |
+          npx eslint --color --max-warnings 0 .

@@ -1,0 +1,93 @@
+name: Unit and e2e tests
+
+on:
+  workflow_run:
+    workflows: ['Build project']
+    types: [completed]
+
+jobs:
+  unit_tests:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        env:
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGODB_USER }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+          MONGO_INITDB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand({ ping: 1 })'" 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js for tests
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        env:
+          MONGODB_HOST: ${{ secrets.MONGODB_HOST }}
+          MONGODB_PORT: ${{ secrets.MONGODB_PORT }}
+          MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+          MONGODB_USER: ${{ secrets.MONGODB_USER }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+        run: npm run test -- --passWithNoTests
+
+  e2e_tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: unit_tests
+    if: success()
+
+    services:
+      mongodb:
+        image: mongo:latest
+        env:
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGODB_USER }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+          MONGO_INITDB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand({ ping: 1 })'" 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js for tests
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run e2e tests
+        env:
+          MONGODB_HOST: ${{ secrets.MONGODB_HOST }}
+          MONGODB_PORT: ${{ secrets.MONGODB_PORT }}
+          MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+          MONGODB_USER: ${{ secrets.MONGODB_USER }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+        run: npm run test:e2e
+      - name: Fail if E2E tests fail
+        if: failure()
+        run: exit 1
