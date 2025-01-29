@@ -25,10 +25,10 @@ import { EventsModule } from './core/events/events.module';
   ],
   controllers: [],
   providers: [
-    {
-      provide: APP_GUARD,
-      useClass: PermissionGuard,
-    },
+    //{
+    //  provide: APP_GUARD,
+    //  useClass: PermissionGuard,
+    //},
     UpserDefaultsService,
     Logger,
   ],
