@@ -6,14 +6,14 @@ on:
     types: [completed]
 jobs:
   build-project:
-    name: Build Production Server
+    name: Build Production Servers
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Checkout code
+      - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.jss
         uses: actions/setup-node@v3
         with:
           node-version: 21
@@ -22,5 +22,4 @@ jobs:
         run: npm install
 
       - name: Build project
-        run: npm run start
-        continue-on-error: true
+        run: npm run build
